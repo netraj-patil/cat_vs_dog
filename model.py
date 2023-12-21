@@ -3,25 +3,23 @@ from tensorflow import keras
 from keras import Sequential
 from keras.layers import Dense,Conv2D, MaxPooling2D, Flatten, BatchNormalization,Dropout
 import matplotlib.pyplot as plt
+import os
 
-print("---------------------------------------------------------")
-print("GPU = ",len(tf.config.list_physical_devices('GPU')))
-print("---------------------------------------------------------")
 # generators
 
 train_ds = keras.utils.image_dataset_from_directory(
-    directory = 'dataset/train',
+    directory = 'datasets/train',
     labels = 'inferred',
     label_mode = 'int',
-    batch_size=32,
+    batch_size=24,
     image_size=(256,256)
 )
 
 validation_ds = keras.utils.image_dataset_from_directory(
-    directory = 'dataset/test',
+    directory = 'datasets/test',
     labels = 'inferred',
     label_mode = 'int',
-    batch_size=32,
+    batch_size=16,
     image_size=(256,256)
 )
 
@@ -57,6 +55,8 @@ model.add(Dense(1,activation='sigmoid'))
 model.compile(optimizer ='adam', loss='binary_crossentropy', metrics =['accuracy'])
 history = model.fit(train_ds, epochs=10, validation_data=validation_ds)
 
+model.save('model.h5')
+'''
 #graphs
 plt.plot(history.history['accuracy'],color='red',label='train')
 plt.plot(history.history['val_accuracy'],color='blue',label='train')
@@ -67,3 +67,4 @@ plt.plot(history.history['loss'],color='red',label='train')
 plt.plot(history.history['val_loss'],color='blue',label='train')
 plt.legend()
 plt.show()
+'''
